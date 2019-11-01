@@ -10,7 +10,7 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="./assets/css/style.css" />
+    <link rel="stylesheet" href="../Train-Scheduler/css/style.css" />
 
     <link
       href="https://fonts.googleapis.com/css?family=Special+Elite&display=swap"
@@ -28,10 +28,11 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <title>Train-Scheduler</title>
   </head>
+
   <body>
     <video
       id="videoBG"
-      poster="../TriviaGame/assets/images/gamer.jpg"
+      poster="../Train-Scheduler/images/train.mp4"
       autoplay
       muted
       loop
@@ -46,55 +47,13 @@
           style="font-family: 'Orbitron', sans-serif;
                 font-size: 30px;"
         >
-          Trivia Game
+          Train-Scheduler
           <span class="badge bg-danger" style="color:white">Tian Qin</span>
         </h1>
       </div>
     </div>
-    <div class="game mx-auto col-12">
-      <div id="gameBody mx-auto mt-9">
-        <button id="startButton">
-          <p id="startButtonText">I have something to say to you.<br /></p>
-          <audio controls id="audioBG">
-            <source
-              src="../TriviaGame/assets/images/jigsaw.ogg"
-              type="audio/ogg"
-            />
-            <source
-              src="../TriviaGame/assets/images/jigsaw.mp3"
-              type="audio/mpeg"
-            />
-            Your browser does not support the audio element.
-          </audio>
-          <p id="startButtonText">
-            DO YOU WANT TO PLAY THIS GAME?<br />
-            If (yes) {Click Me}
-          </p>
-        </button>
-        <div id="timerRow"></div>
-        <div class="gameLevel mx-auto col-12">
-          <p id="rightOrWrong" class="blackText"></p>
-          <p id="question" class="shinyColor"></p>
-          <ul id="answers"></ul>
-          <img id="congratPanel" src="" alt="" />
-        </div>
-        <div class="gameStatPanel">
-          <h2>Correct Answers:</h2>
-          <p id="correctAnswer"></p>
-          <br />
-          <h2>Incorrect Answers:</h2>
-          <p id="incorrectAnswer"></p>
-          <br />
-          <h2>Unanswered Answers:</h2>
-          <p id="unansweredAnswer"></p>
-          <button type="button" id="restartButton">
-            Do you want to play the game again?
-          </button>
-        </div>
-      </div>
-    </div>
 
-    <script src=".//assets/javascript/app.js"></script>
+    <script src="../Train-Scheduler/javascript/app.js"></script>
     <script
       src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
       integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
