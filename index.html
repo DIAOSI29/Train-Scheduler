@@ -32,7 +32,8 @@
   <body>
     <video
       id="videoBG"
-      poster="../Train-Scheduler/images/train.mp4"
+      poster=""
+      src="../Train-Scheduler/images/train.mp4"
       autoplay
       muted
       loop
@@ -40,16 +41,106 @@
       <source id="video" src="" type="video/mp4" />
     </video>
 
-    <div class="container-fluid text-center d-flex flex-row">
-      <div class="heading text-center mx-auto flex-row p-2 m-3">
+    <div class="container-fluid text-start d-flex flex-row">
+      <div class="heading text-center  flex-row p-2 m-3" id="sectionTitle">
         <h1
-          class="text-danger align-bottom text-lg font-weight-bold mt-2"
+          class=" text-lg font-weight-bold mt-2"
           style="font-family: 'Orbitron', sans-serif;
                 font-size: 30px;"
         >
           Train-Scheduler
-          <span class="badge bg-danger" style="color:white">Tian Qin</span>
+          <span class="badge bg-dark" style="color:white">Tian Qin</span>
         </h1>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row" id="sectionA">
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-header"><h2>TRAIN TIME TABLE</h2></div>
+            <div class="card-body">
+              <table class="table table-sm table-hover" id="train-table">
+                <thead>
+                  <tr>
+                    <th class="text-center" scope="col ">Train Name</th>
+                    <th class="text-center" scope="col">Destination</th>
+                    <th class="text-center" scope="col">Frequency(min)</th>
+                    <th class="text-center" scope="col">Next Arrival</th>
+                    <th class="text-center" scope="col">Minutes Away</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-header"><h2>PLEASE ENTER TRAIN DETAILS</h2></div>
+            <div class="card-body">
+              <form>
+                <div class="form-group">
+                  <label for="trainNameInput"
+                    ><span class="badge bg-success" style="color:white"
+                      >Train Name</span
+                    ></label
+                  >
+                  <input
+                    class="form-control"
+                    id="trainNameInput"
+                    placeholder="WA0001"
+                    type="text"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="destinationInput"
+                    ><span class="badge bg-success" style="color:white"
+                      >Destination</span
+                    ></label
+                  >
+                  <input
+                    class="form-control"
+                    id="destinationInput"
+                    placeholder="Albany"
+                    type="text"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="startTimeInput"
+                    ><span class="badge bg-success" style="color:white"
+                      >Train Start Time (HH:mm)</span
+                    ></label
+                  >
+                  <input
+                    class="form-control"
+                    id="startTimeInput"
+                    placeholder="2300"
+                    type="text"
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="FrequencyInput"
+                    ><span class="badge bg-success" style="color:white"
+                      >Frequency (min)</span
+                    ></label
+                  >
+                  <input
+                    class="form-control"
+                    id="FrequencyInput"
+                    placeholder="35"
+                    type="text"
+                  />
+                </div>
+                <button class="btn btn-success float-right" id="add-train-btn">
+                  ADD TRAIN
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
