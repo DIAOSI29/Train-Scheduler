@@ -7,7 +7,7 @@ var firebaseConfig = {
   messagingSenderId: "206747680454",
   appId: "1:206747680454:web:8fb6ece8f4c9f42c0a21c7"
 };
-
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
 var database = firebase.database();
@@ -28,6 +28,7 @@ $("#add-train-btn").on("click", function(event) {
       .trim(),
     "hmm"
   ).format("HH:mm");
+
   var frequency = $("#frequencyInput")
     .val()
     .trim();
@@ -39,7 +40,7 @@ $("#add-train-btn").on("click", function(event) {
     frequency: frequency
   };
 
-  database.ref().push(newTrain);
+  database.ref("Trains").push(newTrain);
 
   console.log(newTrain.name);
   console.log(newTrain.destination);
@@ -54,7 +55,7 @@ $("#add-train-btn").on("click", function(event) {
   $("#frequencyInput").val("");
 });
 
-database.ref().on("child_added", function(childSnapshot) {
+database.ref("Trains").on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
 
   var name = childSnapshot.val().name;
@@ -66,23 +67,36 @@ database.ref().on("child_added", function(childSnapshot) {
   console.log(destination);
   console.log(startTime);
   console.log(frequency);
-
-  var trainStartUnix = moment.unix(startTime).format("HH:mm");
-
-  var minDiff = moment().diff(moment(startTime, "X"), "minutes");
+  console.log(firstTimeConverted);
   console.log(minDiff);
+  console.log(nextArrival);
 
-  var empBilled = empMonths * empRate;
-  console.log(empBilled);
+  var firstTimeConverted = moment(startTime, "HH:mm").subtract(1, "years");
+  var minDiff = moment().diff(moment(firstTimeConverted), "minutes");
+  var minAway = minDiff % frequency;
+  var nextArrival = moment()
+    .add(minAway, "minutes")
+    .format("hh:mm a");
 
-  var newRow = $("<tr>").append(
-    $("<td>").text(empName),
-    $("<td>").text(empRole),
-    $("<td>").text(empStartPretty),
-    $("<td>").text(empMonths),
-    $("<td>").text(empRate),
-    $("<td>").text(empBilled)
-  );
+  var newRow = $("<tr>")
+    .addClass("rowDisplay")
+    .append(
+      $("<td>")
+        .addClass("trainDetailDisplay")
+        .text(name),
+      $("<td>")
+        .addClass("trainDetailDisplay")
+        .text(destination),
+      $("<td>")
+        .addClass("trainDetailDisplay")
+        .text(frequency),
+      $("<td>")
+        .addClass("trainDetailDisplay")
+        .text(nextArrival),
+      $("<td>")
+        .addClass("trainDetailDisplay")
+        .text(minAway)
+    );
 
-  $("#employee-table > tbody").append(newRow);
+  $("#newTrains").append(newRow);
 });
