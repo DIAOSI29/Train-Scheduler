@@ -57,19 +57,18 @@ $("#add-train-btn").on("click", function(event) {
 
 database.ref("Trains").on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
+  console.log(childSnapshot.key);
 
   var name = childSnapshot.val().name;
   var destination = childSnapshot.val().destination;
   var startTime = childSnapshot.val().startTime;
   var frequency = childSnapshot.val().frequency;
+  var childKey = childSnapshot.key;
 
   console.log(name);
   console.log(destination);
   console.log(startTime);
   console.log(frequency);
-  console.log(firstTimeConverted);
-  console.log(minDiff);
-  console.log(nextArrival);
 
   var firstTimeConverted = moment(startTime, "HH:mm").subtract(1, "years");
   var minDiff = moment().diff(moment(firstTimeConverted), "minutes");
@@ -77,6 +76,10 @@ database.ref("Trains").on("child_added", function(childSnapshot) {
   var nextArrival = moment()
     .add(minAway, "minutes")
     .format("hh:mm a");
+
+  console.log(firstTimeConverted);
+  console.log(minDiff);
+  console.log(nextArrival);
 
   var newRow = $("<tr>")
     .addClass("rowDisplay")
@@ -95,8 +98,68 @@ database.ref("Trains").on("child_added", function(childSnapshot) {
         .text(nextArrival),
       $("<td>")
         .addClass("trainDetailDisplay")
-        .text(minAway)
+        .text(minAway),
+      $("<button>")
+        .addClass("trainDetailDisplay")
+        .text("Edit")
+        .click(function() {
+          generateForm(childKey);
+        })
     );
 
   $("#newTrains").append(newRow);
 });
+
+function generateForm(key) {
+  console.log("reached here?");
+  var formForEdit = $("<form>");
+  formForEdit.addClass("editForm").append(
+    $("<label>")
+      .text("Change Name")
+      .addClass("bgForm"),
+    $("<input>").attr({ type: "text", class: "nameChange" }),
+    $("<label>")
+      .text("Change Destination")
+      .addClass("bgForm"),
+    $("<input>").attr({ type: "text", class: "destinationChange" }),
+    $("<label>")
+      .text("Change Start Time")
+      .addClass("bgForm"),
+    $("<input>").attr({ type: "number", class: "startTimeChange" }),
+    $("<label>")
+      .text("Change Frequency")
+      .addClass("bgForm"),
+    $("<input>").attr({ type: "number", class: "frequencyChange" }),
+    $("<button>")
+      .text("Confirm Change")
+      .attr({ type: "submit", class: "submitChange" })
+      .click(function() {
+        changeThisTrain(key);
+      })
+  );
+  $("#changeFormSection").html(formForEdit);
+  console.log("reached there?");
+}
+
+function changeThisTrain(trainID) {
+  var nameChange = $(".nameChage").val();
+  console.log(nameChange);
+  var destinationChange = $(".destinationChange").val();
+  var startTimeChange = $(".startTimeChange").val();
+  var frequencyChange = $(".frequencyChange").val();
+
+  database
+    .ref("Trains")
+    .child(trainID)
+    .update({
+      name: nameChange,
+      destination: destinationChange,
+      startTime: startTimeChange,
+      frequency: frequencyChange
+    });
+}
+
+// database.ref("Trains").on("child_changed", function(snapshot) {
+//   var changedPost = snapshot.val();
+//   console.log("The updated post title is " + changedPost.title);
+// });

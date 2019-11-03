@@ -54,7 +54,7 @@ h1 {
 
 .card-header {
   color: rgb(51, 51, 51);
-  background-image: linear-gradient(147deg, #9292929a 0%, #303030a4 50%);
+  background-image: linear-gradient(147deg, #06b8009a 0%, #004d06a4 50%);
 }
 
 h2 {
@@ -66,16 +66,12 @@ th {
   border-radius: 10px;
   background: none;
 }
-
+tr {
+  background-image: linear, left top, right top, from(#11ac6b), to(#353535);
+}
 label {
   font-weight: 900px;
   font-size: 20px;
-}
-
-thead {
-  background: none;
-  border: none;
-  margin-bottom: 20px;
 }
 
 #train-table {
@@ -85,21 +81,61 @@ thead {
 }
 
 .rowDisplay {
-  margin-bottom: 15px;
-  padding: 10px;
-  line-height: 30px;
-
   font-size: 20px;
   padding: 0;
 }
 
 .trainDetailDisplay {
   text-align: center;
-  margin: 20px;
+  margin: 5px 0;
   text-transform: capitalize;
+  background-image: linear, left top, right top, from(#1c9126), to(#353535);
 }
 
 .text-center {
   font-size: 25px;
   margin-bottom: 20px;
+}
+
+button.trainDetailDisplay {
+  background: rgba(24, 163, 24, 0.774);
+  color: white;
+}
+
+#changeFormSection {
+  /* display: none;
+  background-color: rgb(199, 196, 0);
+  box-shadow: black; */
+  /* box-shadow: 0 0 6px 8px rgba(17, 17, 17, 0.664); */
+  color: red;
+  font-weight: 900;
+  padding: 10px;
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.nameChange,
+.destinationChange,
+.startTimeChange,
+.frequencyChange {
+  margin: 0 100px 15px 10px;
+  border-radius: 10px;
+}
+.bgForm {
+  background-color: rgba(255, 255, 255, 0.692);
+  padding: 0 15px;
+  border-radius: 15px;
+}
+
+.submitChange {
+  background-color: rgba(224, 0, 0, 0.87);
+  margin: 0 20px;
+  border: none;
+  color: white;
+  border-radius: 15px;
+  box-shadow: 0 0 3px 3px rgba(17, 17, 17, 0.664);
+}
+.submitChange:hover {
+  box-shadow: none;
+  font-size: 17px;
 }

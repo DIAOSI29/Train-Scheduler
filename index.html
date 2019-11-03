@@ -44,7 +44,7 @@
       <source id="video" src="" type="video/mp4" />
     </video>
 
-    <div class="container-fluid text-start d-flex flex-row">
+    <div class="container-fluid text-start d-flex flex-row" id="top">
       <div class="heading text-center  flex-row p-2 m-3" id="sectionTitle">
         <h1
           class=" text-lg font-weight-bold mt-2"
@@ -57,6 +57,7 @@
       </div>
     </div>
     <div class="container">
+      <div id="changeFormSection"></div>
       <div class="row" id="sectionA">
         <div class="col-md-12">
           <div class="card mb-4">
@@ -89,6 +90,9 @@
                         >Minutes Away</span
                       >
                     </th>
+                    <th class="text-center" scope="col">
+                      <span class="badge bg-success" style="color:white"></span>
+                    </th>
                   </tr>
                 </thead>
 
@@ -102,7 +106,9 @@
       <div class="row">
         <div class="col-md-12">
           <div class="card mb-4">
-            <div class="card-header"><h2>PLEASE ENTER TRAIN DETAILS</h2></div>
+            <div class="card-header">
+              <h2>PLEASE ENTER TRAIN DETAILS BELOW</h2>
+            </div>
             <div class="card-body">
               <form>
                 <div class="form-group">
