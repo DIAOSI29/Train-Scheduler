@@ -16,6 +16,7 @@ var loginBtn = $("#loginBtn");
 var registerBtn = $("#registerBtn");
 var signoutBtn = $("#signoutBtn");
 
+//function for display userinterface depend on login status
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
@@ -32,6 +33,7 @@ firebase.auth().onAuthStateChanged(function(user) {
   }
 });
 
+//login button clicked and firebase will perform authorisation check
 $("#loginBtn").click(e => {
   e.preventDefault;
 
@@ -51,6 +53,7 @@ $("#loginBtn").click(e => {
   textPassword.val("");
 });
 
+//function for register new account and save it on firebase database
 $("#registerBtn").click(e => {
   e.preventDefault();
   const email = textEmail.val();
@@ -73,6 +76,7 @@ $("#registerBtn").click(e => {
   textPassword.val("");
 });
 
+//to signout and clear input area
 $("#signoutBtn").click(() => {
   firebase.auth().signOut();
   $("#failed-login").html("");
@@ -82,6 +86,7 @@ $("#signoutBtn").click(() => {
 
 var database = firebase.database();
 
+//show train data in required format upon button click
 $("#add-train-btn").on("click", function(event) {
   event.preventDefault();
 
@@ -117,14 +122,13 @@ $("#add-train-btn").on("click", function(event) {
   console.log(newTrain.startTime);
   console.log(newTrain.frequency);
 
-  alert("New Train successfully added");
-
   $("#trainNameInput").val("");
   $("#destinationInput").val("");
   $("#startTimeInput").val("");
   $("#frequencyInput").val("");
 });
 
+//add event listener to keep adding new train data to the table with edit and delete button generated dynamically
 database.ref("Trains").on("child_added", function(childSnapshot) {
   console.log(childSnapshot.val());
   console.log(childSnapshot.key);
@@ -140,9 +144,9 @@ database.ref("Trains").on("child_added", function(childSnapshot) {
   console.log(startTime);
   console.log(frequency);
 
-  var firstTimeConverted = moment(startTime, "HH:mm").subtract(1, "years");
+  var firstTimeConverted = moment(startTime, "HH:mm").subtract(1, "days");
   var minDiff = moment().diff(moment(firstTimeConverted), "minutes");
-  var minAway = minDiff % frequency;
+  var minAway = frequency - (minDiff % frequency);
   var nextArrival = moment()
     .add(minAway, "minutes")
     .format("hh:mm a");
@@ -174,14 +178,20 @@ database.ref("Trains").on("child_added", function(childSnapshot) {
         .text("Edit")
         .click(function() {
           generateForm(childKey);
+        }),
+      $("<button>")
+        .addClass("trainDetailDisplay")
+        .text("Delete")
+        .click(function() {
+          deleteRow(childKey);
         })
     );
 
   $("#newTrains").append(newRow);
 });
 
+//display train table change form where user can modify targeted train detail by filling out an update data form
 function generateForm(key) {
-  console.log("reached here?");
   var formForEdit = $("<form>");
   formForEdit.addClass("editForm").append(
     $("<label>")
@@ -208,12 +218,11 @@ function generateForm(key) {
       })
   );
   $("#changeFormSection").html(formForEdit);
-  console.log("reached there?");
 }
 
+//function for editting train detail and update next arrival time as well as minutes away accordingly
 function changeThisTrain(trainID) {
   var nameChange = $(".nameChange").val();
-  console.log(nameChange);
   var destinationChange = $(".destinationChange").val();
   var startTimeChange = $(".startTimeChange").val();
   var frequencyChange = $(".frequencyChange").val();
@@ -229,7 +238,16 @@ function changeThisTrain(trainID) {
     });
 }
 
-// database.ref("Trains").on("child_changed", function(snapshot) {
-//   var changedPost = snapshot.val();
-//   console.log("The updated post title is " + changedPost.title);
-// });
+//delete specific train
+function deleteRow(trainID) {
+  database
+    .ref("Trains")
+    .child(trainID)
+    .remove();
+}
+
+//once a train table is deleted, refresh the UI with corresponding data deleted)
+database.ref("Trains").on("child_removed", function(snapshot) {
+  console.log(snapshot);
+  location.reload();
+});

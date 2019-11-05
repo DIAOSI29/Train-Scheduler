@@ -110,9 +110,13 @@ body {
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   margin-bottom: 20px;
+  margin-top: 30px;
 }
-#signoutBtn :hover {
+#signoutBtn:hover {
   color: red;
+  font-weight: 400;
+  background: white;
+  border: 5px solid red;
 }
 
 #videoBG {
@@ -183,6 +187,12 @@ label {
 button.trainDetailDisplay {
   background: rgba(24, 163, 24, 0.774);
   color: white;
+  margin-right: 10px;
+}
+button.trainDetailDisplay:hover {
+  background: rgba(189, 0, 0, 0.774);
+  color: white;
+  margin-right: 10px;
 }
 
 #changeFormSection {
