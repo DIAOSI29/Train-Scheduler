@@ -10,6 +10,76 @@ var firebaseConfig = {
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
+var textEmail = $("#emailInput");
+var textPassword = $("#passwordInput");
+var loginBtn = $("#loginBtn");
+var registerBtn = $("#registerBtn");
+var signoutBtn = $("#signoutBtn");
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    // User is signed in.
+
+    document.getElementById("user_div").style.display = "block";
+    document.getElementById("login_div").style.display = "none";
+
+    var user = firebase.auth().currentUser;
+  } else {
+    // No user is signed in.
+
+    document.getElementById("user_div").style.display = "none";
+    document.getElementById("login_div").style.display = "block";
+  }
+});
+
+$("#loginBtn").click(e => {
+  e.preventDefault;
+
+  const email = textEmail.val();
+  console.log(email);
+  const password = textPassword.val();
+
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .catch(e => {
+      console.log(e.message);
+      $("#failed-login").html("Login Failed ... Please try again :(");
+    });
+
+  textEmail.val("");
+  textPassword.val("");
+});
+
+$("#registerBtn").click(e => {
+  e.preventDefault();
+  const email = textEmail.val();
+  console.log(email);
+  const password = textPassword.val();
+  if (email.length < 4) {
+    alert("Please enter a valid email address.");
+    return;
+  }
+  if (password.length < 4) {
+    alert("Please set a stronger password.");
+    return;
+  }
+
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .catch(e => console.log(e.message));
+  textEmail.val("");
+  textPassword.val("");
+});
+
+$("#signoutBtn").click(() => {
+  firebase.auth().signOut();
+  $("#failed-login").html("");
+});
+
+//database section//
+
 var database = firebase.database();
 
 $("#add-train-btn").on("click", function(event) {
@@ -142,7 +212,7 @@ function generateForm(key) {
 }
 
 function changeThisTrain(trainID) {
-  var nameChange = $(".nameChage").val();
+  var nameChange = $(".nameChange").val();
   console.log(nameChange);
   var destinationChange = $(".destinationChange").val();
   var startTimeChange = $(".startTimeChange").val();

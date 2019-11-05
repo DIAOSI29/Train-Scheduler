@@ -28,6 +28,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.2.3/firebase-auth.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <title>Train-Scheduler</title>
   </head>
@@ -44,129 +45,148 @@
       <source id="video" src="" type="video/mp4" />
     </video>
 
-    <div class="container-fluid text-start d-flex flex-row" id="top">
-      <div class="heading text-center  flex-row p-2 m-3" id="sectionTitle">
-        <h1
-          class=" text-lg font-weight-bold mt-2"
-          style="font-family: 'Orbitron', sans-serif;
-                font-size: 30px;"
-        >
-          Train-Scheduler
-          <span class="badge bg-dark" style="color:white">Tian Qin</span>
-        </h1>
-      </div>
-    </div>
-    <div class="container">
-      <div id="changeFormSection"></div>
-      <div class="row" id="sectionA">
-        <div class="col-md-12">
-          <div class="card mb-4">
-            <div class="card-body">
-              <table id="train-table">
-                <thead>
-                  <tr>
-                    <th class="text-center" scope="col ">
-                      <span class="badge bg-success" style="color:white"
-                        >Train Name</span
-                      >
-                    </th>
-                    <th class="text-center" scope="col">
-                      <span class="badge bg-success" style="color:white"
-                        >Destination</span
-                      >
-                    </th>
-                    <th class="text-center" scope="col">
-                      <span class="badge bg-success" style="color:white"
-                        >Frequency(min)</span
-                      >
-                    </th>
-                    <th class="text-center" scope="col">
-                      <span class="badge bg-success" style="color:white"
-                        >Next Arrival</span
-                      >
-                    </th>
-                    <th class="text-center" scope="col">
-                      <span class="badge bg-success" style="color:white"
-                        >Minutes Away</span
-                      >
-                    </th>
-                    <th class="text-center" scope="col">
-                      <span class="badge bg-success" style="color:white"></span>
-                    </th>
-                  </tr>
-                </thead>
+    <div id="login_div" class="main-div">
+      <div id="failed-login"></div>
+      <h3 class="text-center" id="loginText">Train-Scheduler Login</h3>
+      <input type="text" placeholder="Email..." id="emailInput" />
+      <input type="text" placeholder="Password..." id="passwordInput" />
 
-                <tbody id="newTrains"></tbody>
-              </table>
+      <button id="loginBtn">Login to Account</button>
+      <button id="registerBtn">Register A New Account</button>
+    </div>
+
+    <div id="user_div" class="container-fluid loggedin-div">
+      <div class="container-fluid text-start d-flex flex-row" id="top">
+        <div class="heading text-center  flex-row p-2 m-3" id="sectionTitle">
+          <h1
+            class=" text-lg font-weight-bold mt-2"
+            style="font-family: 'Orbitron', sans-serif;
+                font-size: 30px;"
+          >
+            Train-Scheduler
+            <span class="badge bg-dark" style="color:white">Tian Qin</span>
+          </h1>
+        </div>
+        <div class="ml-auto"><button id="signoutBtn">Sign Out</button></div>
+      </div>
+      <div class="container">
+        <div id="changeFormSection"></div>
+        <div class="row" id="sectionA">
+          <div class="col-md-12">
+            <div class="card mb-4">
+              <div class="card-body">
+                <table id="train-table">
+                  <thead>
+                    <tr>
+                      <th class="text-center" scope="col ">
+                        <span class="badge bg-success" style="color:white"
+                          >Train Name</span
+                        >
+                      </th>
+                      <th class="text-center" scope="col">
+                        <span class="badge bg-success" style="color:white"
+                          >Destination</span
+                        >
+                      </th>
+                      <th class="text-center" scope="col">
+                        <span class="badge bg-success" style="color:white"
+                          >Frequency(min)</span
+                        >
+                      </th>
+                      <th class="text-center" scope="col">
+                        <span class="badge bg-success" style="color:white"
+                          >Next Arrival</span
+                        >
+                      </th>
+                      <th class="text-center" scope="col">
+                        <span class="badge bg-success" style="color:white"
+                          >Minutes Away</span
+                        >
+                      </th>
+                      <th class="text-center" scope="col">
+                        <span
+                          class="badge bg-success"
+                          style="color:white"
+                        ></span>
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody id="newTrains"></tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-md-12">
-          <div class="card mb-4">
-            <div class="card-header">
-              <h2>PLEASE ENTER TRAIN DETAILS BELOW</h2>
-            </div>
-            <div class="card-body">
-              <form>
-                <div class="form-group">
-                  <label for="trainNameInput"
-                    ><span class="badge bg-success" style="color:white"
-                      >Train Name</span
-                    ></label
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h2>PLEASE ENTER TRAIN DETAILS BELOW</h2>
+              </div>
+              <div class="card-body">
+                <form>
+                  <div class="form-group">
+                    <label for="trainNameInput"
+                      ><span class="badge bg-success" style="color:white"
+                        >Train Name</span
+                      ></label
+                    >
+                    <input
+                      class="form-control"
+                      id="trainNameInput"
+                      placeholder="WA0001"
+                      type="text"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="destinationInput"
+                      ><span class="badge bg-success" style="color:white"
+                        >Destination</span
+                      ></label
+                    >
+                    <input
+                      class="form-control"
+                      id="destinationInput"
+                      placeholder="Sydney"
+                      type="text"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="startTimeInput"
+                      ><span class="badge bg-success" style="color:white"
+                        >Train Start Time (HH:mm)</span
+                      ></label
+                    >
+                    <input
+                      class="form-control"
+                      id="startTimeInput"
+                      placeholder="2010"
+                      type="text"
+                    />
+                  </div>
+                  <div class="form-group">
+                    <label for="frequencyInput"
+                      ><span class="badge bg-success" style="color:white"
+                        >Frequency (min)</span
+                      ></label
+                    >
+                    <input
+                      class="form-control"
+                      id="frequencyInput"
+                      placeholder="35"
+                      type="number"
+                    />
+                  </div>
+                  <button
+                    class="btn btn-success float-right"
+                    id="add-train-btn"
                   >
-                  <input
-                    class="form-control"
-                    id="trainNameInput"
-                    placeholder="WA0001"
-                    type="text"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="destinationInput"
-                    ><span class="badge bg-success" style="color:white"
-                      >Destination</span
-                    ></label
-                  >
-                  <input
-                    class="form-control"
-                    id="destinationInput"
-                    placeholder="Sydney"
-                    type="text"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="startTimeInput"
-                    ><span class="badge bg-success" style="color:white"
-                      >Train Start Time (HH:mm)</span
-                    ></label
-                  >
-                  <input
-                    class="form-control"
-                    id="startTimeInput"
-                    placeholder="2010"
-                    type="text"
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="frequencyInput"
-                    ><span class="badge bg-success" style="color:white"
-                      >Frequency (min)</span
-                    ></label
-                  >
-                  <input
-                    class="form-control"
-                    id="frequencyInput"
-                    placeholder="35"
-                    type="number"
-                  />
-                </div>
-                <button class="btn btn-success float-right" id="add-train-btn">
-                  ADD TRAIN
-                </button>
-              </form>
+                    ADD TRAIN
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </div>
